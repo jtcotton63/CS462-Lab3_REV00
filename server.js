@@ -53,11 +53,13 @@ router.route('/login')
 router.route('/logout')
 	.get(logoutController.get);
 
-router.get('/profiles/:user_id', function(req, res) {
+router.get('/profiles/:username', function(req, res) {
 	cookieController.getCookie(req, res, profilesController.get);
 });
 
-router.route('/users')
+// API routes
+
+router.route('/api/users')
 	.get(usersController.get)
 	.post(usersController.post);
 
