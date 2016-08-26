@@ -1,10 +1,14 @@
+var User = require('../models/user');
+
+
+
 function parseCookie(cookies) {
 
-	if(cookies && cookies.session)
+	if(cookies && cookies.session) {
 
 		return cookies.session;
 
-	else
+	 } else
 
 		return null;
 
@@ -12,13 +16,36 @@ function parseCookie(cookies) {
 
 
 
-exports.getCookie = function(req, res, callback) {
+exports.getUsernameForCookie = function(req, res, callback) {
 
-	var username = parseCookie(req.cookies);
+	var cookie = parseCookie(req.cookies);
 
-	if(username)
+	if(cookie) {
 
-		callback(req, res, username);
+		User.findOne({ cookie: cookie }, function(err, user) {
+
+			if(err)
+
+				callback(req, res, err);
+
+			else {
+
+				if(!user) {
+
+					callback(req, res, null);
+
+				} else {
+
+					callback(req, res, user.username);
+
+				}
+
+			}
+
+
+		});
+
+	}
 
 	else
 

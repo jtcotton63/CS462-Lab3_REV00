@@ -44,7 +44,7 @@ app.use(cookieParser());
 var router = express.Router();
 
 router.get('/', function(req, res) {
-	cookieController.getCookie(req, res, mainController.get);
+	cookieController.getUsernameForCookie(req, res, mainController.get);
 });
 
 router.route('/login')
@@ -54,7 +54,7 @@ router.route('/logout')
 	.get(logoutController.get);
 
 router.get('/profiles/:username', function(req, res) {
-	cookieController.getCookie(req, res, profilesController.get);
+	cookieController.getUsernameForCookie(req, res, profilesController.get);
 });
 
 // API routes
