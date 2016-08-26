@@ -8,7 +8,7 @@ var loginController = require('./controllers/login');
 var logoutController = require('./controllers/logout');
 var mainController = require('./controllers/main');
 var mongoose = require('mongoose');
-var userController = require('./controllers/user');
+var profilesController = require('./controllers/profiles');
 var usersController = require('./controllers/users');
 
 
@@ -53,13 +53,13 @@ router.route('/login')
 router.route('/logout')
 	.get(logoutController.get);
 
+router.get('/profiles/:user_id', function(req, res) {
+	cookieController.getCookie(req, res, profilesController.get);
+});
+
 router.route('/users')
 	.get(usersController.get)
 	.post(usersController.post);
-
-router.get('/users/:user_id', function(req, res) {
-	cookieController.getCookie(req, res, userController.get);
-});
 
 app.use('/', router);
 
