@@ -43,6 +43,8 @@ app.use(cookieParser());
 // Configure router
 var router = express.Router();
 
+// Standard routes
+
 router.get('/', function(req, res) {
 	cookieController.getUsernameForCookie(req, res, mainController.get);
 });
@@ -59,9 +61,11 @@ router.get('/profiles/:username', function(req, res) {
 
 // API routes
 
-router.route('/api/users')
-	.get(usersController.get)
-	.post(usersController.post);
+router.get('/api/users', function(req, res) {
+	cookieController.getAdminUsernameForCookie(req, res, usersController.get);
+});
+
+router.route('/api/users').post(usersController.post);
 
 app.use('/', router);
 

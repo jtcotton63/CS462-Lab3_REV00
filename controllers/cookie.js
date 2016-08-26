@@ -26,7 +26,7 @@ exports.getUsernameForCookie = function(req, res, callback) {
 
 			if(err)
 
-				callback(req, res, err);
+				res.send(err);
 
 			else {
 
@@ -50,5 +50,60 @@ exports.getUsernameForCookie = function(req, res, callback) {
 	else
 
 		callback(req, res, null);
+
+};
+
+
+function onFailAdmin(req, res) {
+
+	res.send('You are not authorized to view this content');
+
+}
+
+
+
+
+exports.getAdminUsernameForCookie = function(req, res, callback) {
+
+	var cookie = parseCookie(req.cookies);
+
+	if(cookie) {
+
+		User.findOne({ cookie: cookie }, function(err, user) {
+
+			console.log('User ' + user);
+
+			if(err)
+
+				res.send(err);
+
+			else {
+
+				if(!user) {
+
+					onFailAdmin(req, res);
+
+				} else {
+
+					if(user.username !== 'jtcotton63')
+
+						onFailAdmin(req, res);
+
+					else
+
+						callback(req, res);
+
+				}
+
+			}
+
+
+		});
+
+	}
+
+	else
+
+		onFailAdmin(req, res);
 
 };
