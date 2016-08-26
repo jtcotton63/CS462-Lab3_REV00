@@ -2,6 +2,8 @@ var bodyParser = require('body-parser');
 var cookieController = require('./controllers/cookie');
 var cookieParser = require('cookie-parser');
 var express = require('express');
+var fs = require('fs');
+var https = require('https');
 var loginController = require('./controllers/login');
 var logoutController = require('./controllers/logout');
 var mainController = require('./controllers/main');
@@ -64,6 +66,19 @@ app.use('/', router);
 
 
 
+// Configure HTTPS
+
+var cert = fs.readFileSync('/home/josephee/.ssh/localhosthttpscert.pem');
+var key = fs.readFileSync('/home/josephee/.ssh/joseph-private-key.pem');
+var httpsOptions = {
+	
+	key: key,
+	cert: cert
+
+};
+
+
+
 // Start the app
-app.listen(3000);
+server = https.createServer(httpsOptions, app).listen(3000);
 console.log('Server started');
