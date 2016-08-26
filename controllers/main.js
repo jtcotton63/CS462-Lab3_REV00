@@ -2,7 +2,7 @@ var User = require('../models/user');
 
 
 
-exports.get = function(req, res) {
+exports.get = function(req, res, username) {
 
 	// Get a list of all users
 	User.find(function(err, users) {
@@ -13,7 +13,7 @@ exports.get = function(req, res) {
 
 		else {
 
-			var name = 'Guest';
+			var name = (username ? username : 'Guest');
 			var statement = 'Hi ' + name + '! Welcome to Joseph\'s App';
 
 			res.render('pages/index', {

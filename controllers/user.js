@@ -1,6 +1,8 @@
-exports.get = function(req, res) {
+exports.get = function(req, res, username) {
 
-	var name = req.params.user_id + '\'s';
+	var ownSpace = (username === req.params.user_id ? true : false);
+
+	var name = ( ownSpace ? 'your' : req.params.user_id + '\'s');
 
     res.render('pages/profile', {
         name: name

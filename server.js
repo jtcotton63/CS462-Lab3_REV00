@@ -1,4 +1,6 @@
 var bodyParser = require('body-parser');
+var cookieController = require('./controllers/cookie');
+var cookieParser = require('cookie-parser');
 var express = require('express');
 var loginController = require('./controllers/login');
 var logoutController = require('./controllers/logout');
@@ -31,11 +33,17 @@ app.use(bodyParser.urlencoded({
 
 
 
+// Configure cookie-parser
+app.use(cookieParser());
+
+
+
 // Configure router
 var router = express.Router();
 
-router.route('/')
-	.get(mainController.get);
+router.get('/', function(req, res) {
+	cookieController.getCookie(req, res, mainController.get);
+});
 
 router.route('/login')
 	.get(loginController.get);
@@ -47,8 +55,9 @@ router.route('/users')
 	.get(usersController.get)
 	.post(usersController.post);
 
-router.route('/users/:user_id')
-	.get(userController.get);
+router.get('/users/:user_id', function(req, res) {
+	cookieController.getCookie(req, res, userController.get);
+});
 
 app.use('/', router);
 

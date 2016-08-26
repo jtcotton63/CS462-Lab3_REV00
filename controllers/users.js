@@ -17,6 +17,17 @@ exports.get = function(req, res) {
 
 
 
+function onSucceed(req, res, username) {
+
+	// Create a custom cookie for this user
+	// The cookie value is the username
+	res.cookie('session', username);
+	res.redirect('/');
+
+}
+
+
+
 exports.post = function(req, res) {
 
 	// First check and see if it exists
@@ -47,7 +58,7 @@ exports.post = function(req, res) {
 
 					else {
 
-						res.redirect('/');
+						onSucceed(req, res, req.body.username);
 
 					}
 					
@@ -56,7 +67,7 @@ exports.post = function(req, res) {
 
 			} else {
 
-				res.redirect('/');
+				onSucceed(req, res, req.body.username);
 
 			}
 
