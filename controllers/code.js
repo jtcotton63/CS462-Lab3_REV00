@@ -1,7 +1,7 @@
 var connectController = require('./connect');
 var fs = require('fs');
-var os = require('os');
 var https = require('https');
+var os = require('os');
 var User = require('../models/user');
 var userController = require('./user');
 
