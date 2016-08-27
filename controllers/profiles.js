@@ -15,21 +15,16 @@ function appendToFile(data, callback) {
 
 
 
-function getUserData(token, recent, callback) {
+function getUserData(path, token, callback) {
 
 	var log = os.EOL + os.EOL + '--------------------------' + os.EOL + os.EOL;
 
 	// Request access token for user from FourSquare API
 	var address = 'api.foursquare.com';
 	var params = '?v=20160827&oauth_token=' + token;
-	var path = '/v2/users/self/checkins';
-	if(recent)
-		path += recent;
-	path += params;
-
 	var options = {
 		host: address,
-		path: path
+		path: path + params
 	}
 
 	// Write to log
@@ -104,6 +99,7 @@ exports.get = function(req, res, username) {
 
 			var checkins = null;
 			var link = null;
+			var noData = null;
 
 			if(ownSpace === true) {
 
@@ -112,7 +108,8 @@ exports.get = function(req, res, username) {
 				if(user.fs_access_token) {
 
 					// Make request to FS API to get information
-					getUserData(user.fs_access_token, null, function(err, status, body) {
+					var path = '/v2/users/self/checkins';
+					getUserData(path, user.fs_access_token, function(err, status, body) {
 
 						if(err || status != 200) {
 
@@ -125,7 +122,8 @@ exports.get = function(req, res, username) {
 	    				    res.render('pages/profile', {
 						        checkins: checkins,
 						        link: link,
-						        name: name
+						        name: name,
+						        no_data: noData
 						    });
 
 						}
@@ -141,31 +139,55 @@ exports.get = function(req, res, username) {
 				    res.render('pages/profile', {
 				        checkins: checkins,
 				        link: link,
-				        name: name
+				        name: name,
+				        no_data: noData
 				    });
 
 				}
 
 			} else {
 
-				// Not their own space
+				// The current user is looking at another user's profile
+				// If the other user already has an fs_access token,
+				// we can display their most recent checkin
+				if(user.fs_access_token) {
 
-				// Check if the other person has a token check-in data
+					// Make request to FS API to get other user's information
+					var path = '/v2/checkins/recent';
+					getUserData(path, user.fs_access_token, function(err, status, body) {
 
-				// If person has a token
+						if(err || status != 200) {
 
-				// display most recent check in
+							res.status(500);
+							res.send('An unexpected error occurred while getting FourSquare data. Body: ' + JSON.stringify(body));
 
-				// else 
+						} else {
 
-				// display a message "hasn't connected to FS yet"
+							checkins = body.response.recent;
+	    				    res.render('pages/profile', {
+						        checkins: checkins,
+						        link: link,
+						        name: name,
+						        no_data: noData
+						    });
+
+						}
 
 
-			    res.render('pages/profile', {
-			    	checkins: checkins,
-			        link: link,
-			        name: name
-			    });
+					})
+
+				} else {
+
+					// Other user doesn't have a token, so we can't display their data
+					noData = 'No data to display for this user';
+				    res.render('pages/profile', {
+				        checkins: checkins,
+				        link: link,
+				        name: name,
+				        no_data: noData
+				    });
+
+				}
 
 			}
 

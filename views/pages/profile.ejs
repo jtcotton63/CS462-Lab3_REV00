@@ -14,12 +14,7 @@
             <h1>This is <%= name %> profile</h1>
             <br>
 
-            <!-- Link shows up if it's the person is viewing their own profile and they don't have an FS access token -->
-            <% if(link) { %>
-            <h2> <a href="<%= link %>">Click here to import your data from FourSquare</a> </h2>
-            <% } %>
-            
-            <!-- Checkins - own profile and have access token -->
+            <!-- Displays checkins and most recent -->
             <% if(checkins) { %>
 
                 <h2>Your recent check-ins:</h2>
@@ -34,6 +29,18 @@
 
                 </ul>
 
+            <% } %>
+
+            <!-- Link shows up if it's the person is viewing their own profile and they don't have an FS access token -->
+            <% if(link) { %>
+            <h2> <a href="<%= link %>">Click here to import your data from FourSquare</a> </h2>
+            <% } %>
+
+            <!-- No data shows up when the person is viewing someone else's profile -->
+            <!-- and the person whose profile it is doesn't have an FS access token -->
+            <!-- so we can't get any data to display -->
+            <% if(no_data) { %>
+            <h2> <%= no_data %> </h2>
             <% } %>
 
 
