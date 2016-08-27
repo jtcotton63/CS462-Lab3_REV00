@@ -71,8 +71,6 @@ exports.getAdminUsernameForCookie = function(req, res, callback) {
 
 		User.findOne({ cookie: cookie }, function(err, user) {
 
-			console.log('User ' + user);
-
 			if(err)
 
 				res.send(err);

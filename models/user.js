@@ -20,6 +20,10 @@ var UserSchema   = new mongoose.Schema(
 		cookie: {
 			type: String,
 			required: true
+		},
+		// FourSquare access token
+		fs_access_token: {
+			type: String
 		}
 
 	}

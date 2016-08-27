@@ -9,6 +9,7 @@ var logoutController = require('./controllers/logout');
 var mainController = require('./controllers/main');
 var mongoose = require('mongoose');
 var profilesController = require('./controllers/profiles');
+var userController = require('./controllers/user');
 var usersController = require('./controllers/users');
 
 
@@ -29,6 +30,7 @@ app.set('view engine', 'ejs');
 
 
 // Configure body-parser
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
@@ -66,6 +68,10 @@ router.get('/api/users', function(req, res) {
 });
 
 router.route('/api/users').post(usersController.post);
+
+router.put('/api/users/:username', function(req, res) {
+	cookieController.getAdminUsernameForCookie(req, res, userController.put);
+});
 
 app.use('/', router);
 

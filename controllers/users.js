@@ -21,36 +21,10 @@ exports.get = function(req, res) {
 function onSucceed(req, res, cookie) {
 
 	// Set cookie identifying the user
-	res.cookie('session', cookie);
+	res.cookie('session', cookie, {maxAge: 1800000});
 	res.redirect('/');
 
 }
-
-function verifyPassword(username, password, callback) {
-
-	User.findOne({username: username, password: password}, function(err, user) {
-
-		if(err) {
-
-			console.log(err);
-			callback(false);
-
-		} else
-
-			if(!user) {
-
-				callback(false);
-
-			} else {
-
-				callback(true);
-
-			}
-
-	});
-
-}
-
 
 
 exports.post = function(req, res) {
@@ -96,17 +70,13 @@ exports.post = function(req, res) {
 
 			} else {
 
-				verifyPassword(req.body.username, req.body.password, function(isMatch) {
+				if(user.password !== req.body.password)
 
-					if(isMatch)
-				
-						onSucceed(req, res, user.cookie);
-					
-					else
-					
-						res.send('Invalid credentials. If you have previously registered with this username, you entered your password incorrectly. Please try again. If this is your first time logging in, the username you have chosen has already been taken. Please try again using a different username.');
+					res.send('Invalid credentials. If you have previously registered with this username, you entered your password incorrectly. Please try again. If this is your first time logging in, the username you have chosen has already been taken. Please try again using a different username.');
 
-				});
+				else
+
+					onSucceed(req, res, user.cookie);
 
 			}
 
