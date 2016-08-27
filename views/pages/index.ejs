@@ -14,17 +14,21 @@
             
             <h1><%= statement %></h1>
 
-            <h2>View pages of users:<h2>
+            <% if(users.length > 0) { %>
 
-            <ul>
+                <h2>View pages of users:</h2>
 
-            <% users.forEach(function(user) { %>
+                <ul>
 
-            	<li> <a href="/profiles/<%= user.username %>"> <%= user.username %> </a> </li>
+                    <% users.forEach(function(user) { %>
 
-            <% }); %>
+            	       <li> <a href="/profiles/<%= user.username %>"> <%= user.username %> </a> </li>
 
-            </ul>
+                    <% }); %>
+
+                </ul>
+
+            <% } %>
 
         </div>
     </main>

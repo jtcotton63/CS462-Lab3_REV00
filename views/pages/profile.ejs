@@ -12,6 +12,10 @@
     <main>
         <div class="jumbotron">
             <h1>This is <%= name %> profile</h1>
+            <br>
+            <% if(link) { %>
+            <h2> <a href="<%= link %>">Click here to import your data from FourSquare</a> </h2>
+            <% } %>
         </div>
     </main>
     

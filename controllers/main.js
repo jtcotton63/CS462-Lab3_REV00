@@ -13,8 +13,8 @@ exports.get = function(req, res, username) {
 
 		else {
 
-			var name = (username ? username : 'Guest');
-			var statement = 'Hi ' + name + '! Welcome to Joseph\'s App';
+			var part = 'Welcome to Joseph\'s App';
+			var statement = (username ? 'Hi ' + username + '! ' + part : part);
 
 			res.render('pages/index', {
 		        statement: statement,
