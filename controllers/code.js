@@ -40,12 +40,17 @@ function updateUserWithToken(username, token) {
 			if(token)
 				user.fs_access_token = token;
 
-			userController.saveUser(user, function(err) {
+			var data0 = 'BEFORE DATABASE ' + os.EOL;
+			data0 += 'Token: ' + token;
+			data0 += 'User: ' + JSON.stringify(user) + os.EOL;
+			appendToFile(data0, function(err) {});
+
+			user.save(function(err) {
 
 				if(err) {
 
 					var data = 'Error while saving user to database' + os.EOL;
-					data += 'User: ' + user+ os.EOL;
+					data += 'User: ' + JSON.stringify(user) + os.EOL;
 					data += 'username: ' + username + os.EOL;
 					data += 'token: ' + token + os.EOL;
 					data += 'Error: ' + JSON.stringify(err) + os.EOL;
@@ -53,7 +58,7 @@ function updateUserWithToken(username, token) {
 
 				} else {
 
-					var data = 'User' + username + ' was successfully updated in the database' + os.EOL;
+					var data = 'User ' + username + ' was successfully updated in the database' + os.EOL;
 					data += 'User: ' + JSON.stringify(user) + os.EOL;
 					appendToFile(data, function(err) {});
 

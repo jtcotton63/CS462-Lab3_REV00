@@ -2,16 +2,6 @@ var User = require('../models/user');
 
 
 
-exports.saveUser = function(user, callback) {
-
-	user.save(function(err) {
-		callback(err);
-	});
-
-};
-
-
-
 exports.getUserByUsername = function(username, callback) {
 
 	User.findOne({username: username}, function(err, user) {
@@ -43,7 +33,7 @@ exports.put = function(req, res) {
 			if(req.body.fs_access_token)
 				user.fs_access_token = req.body.fs_access_token;
 
-			exports.saveUser(user, function(err) {
+			user.save(function(err) {
 
 				if(err) {
 
