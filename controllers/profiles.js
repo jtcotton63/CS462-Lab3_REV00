@@ -100,6 +100,7 @@ exports.get = function(req, res, username) {
 			var checkins = null;
 			var link = null;
 			var noData = null;
+			var recent = null;
 
 			if(ownSpace === true) {
 
@@ -123,7 +124,8 @@ exports.get = function(req, res, username) {
 						        checkins: checkins,
 						        link: link,
 						        name: name,
-						        no_data: noData
+						        no_data: noData,
+						        recent: recent
 						    });
 
 						}
@@ -140,7 +142,8 @@ exports.get = function(req, res, username) {
 				        checkins: checkins,
 				        link: link,
 				        name: name,
-				        no_data: noData
+				        no_data: noData,
+				        recent: recent
 				    });
 
 				}
@@ -163,12 +166,13 @@ exports.get = function(req, res, username) {
 
 						} else {
 
-							checkins = body.response.recent;
+							recent = body.response.recent;
 	    				    res.render('pages/profile', {
 						        checkins: checkins,
 						        link: link,
 						        name: name,
-						        no_data: noData
+						        no_data: noData,
+						        recent: recent
 						    });
 
 						}
@@ -184,7 +188,8 @@ exports.get = function(req, res, username) {
 				        checkins: checkins,
 				        link: link,
 				        name: name,
-				        no_data: noData
+				        no_data: noData,
+				        recent: recent
 				    });
 
 				}

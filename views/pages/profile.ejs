@@ -14,16 +14,16 @@
             <h1>This is <%= name %> profile</h1>
             <br>
 
-            <!-- Displays checkins and most recent -->
+            <!-- When looking at own profile and have token -->
             <% if(checkins) { %>
 
-                <h2>Your recent check-ins:</h2>
+                <h2>Your check-ins:</h2>
 
                 <ul>
 
                     <% checkins.forEach(function(checkin) { %>
 
-                       <li> <%= checkin.venue.name %> in <%= checkin.venue.location.city %> </li>
+                       <li> <%= checkin.venue.name %> in <%= checkin.venue.location.city %>, <%= checkin.venue.location.state %>. <%= checkin.venue.stats.usersCount - 1 %> other people have also checked in at <%= checkin.venue.name %></li>
 
                     <% }); %>
 
@@ -35,6 +35,24 @@
             <% if(link) { %>
             <h2> <a href="<%= link %>">Click here to import your data from FourSquare</a> </h2>
             <% } %>
+
+            <!-- When looking at someone else's profile and have token -->
+            <% if(recent) { %>
+
+                <h2> <%= name %> recent check-ins:</h2>
+
+                <ul>
+
+                    <% recent.forEach(function(checkin) { %>
+
+                       <li> <%= checkin.venue.name %> </li>
+
+                    <% }); %>
+
+                </ul>
+
+            <% } %>
+
 
             <!-- No data shows up when the person is viewing someone else's profile -->
             <!-- and the person whose profile it is doesn't have an FS access token -->
