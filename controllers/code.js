@@ -41,7 +41,7 @@ function updateUserWithToken(username, token) {
 				user.fs_access_token = token;
 
 			var data0 = 'BEFORE DATABASE ' + os.EOL;
-			data0 += 'Token: ' + token;
+			data0 += 'Token: ' + token + os.EOL;
 			data0 += 'User: ' + JSON.stringify(user) + os.EOL;
 			appendToFile(data0, function(err) {});
 
@@ -119,7 +119,7 @@ function exchangeCode(code, username) {
 					appendToFile(log, function(err) {
 
 						if(res.statusCode == 200)
-							updateUserWithToken(username, data.access_token);
+							updateUserWithToken(username, responseBody.access_token);
 
 					});
 
