@@ -1,4 +1,6 @@
 var bodyParser = require('body-parser');
+var codeController = require('./controllers/code');
+var connectController = require('./controllers/connect');
 var cookieController = require('./controllers/cookie');
 var cookieParser = require('cookie-parser');
 var express = require('express');
@@ -49,6 +51,14 @@ var router = express.Router();
 
 router.get('/', function(req, res) {
 	cookieController.getUsernameForCookie(req, res, mainController.get);
+});
+
+router.get('/code', function(req, res) {
+	cookieController.getUsernameForCookie(req, res, codeController.get);
+});
+
+router.get('/connect', function(req, res) {
+	cookieController.getUsernameForCookie(req, res, connectController.get);
 });
 
 router.route('/login')

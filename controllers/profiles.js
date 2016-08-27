@@ -22,13 +22,49 @@ exports.get = function(req, res, username) {
 
 		} else {
 
-			var fsLink = 'https://foursquare.com/oauth2/authenticate?client_id=CLIENT_ID&response_type=code&redirect_url=REDIRECT';
-			var link = (ownSpace ? fsLink : null);
+			var link = null;
 
-		    res.render('pages/profile', {
-		        link: link,
-		        name: name
-		    });
+			if(ownSpace) {
+
+				// If the user already has an fs_access token,
+				// they don't need to connect to FS again
+				if(user.fs_access_token) {
+
+					link = null;
+
+					// Display detailed location data
+
+				} else {
+
+					link = '/connect';
+
+				}
+
+			} else {
+
+				// Not their own space
+
+				// Other person may or may not have check-in data
+
+				// If person has check-in data
+
+				// user = check-in data
+
+				// else 
+
+				// user = null (so it doesn't display)
+
+			}
+
+
+		    res.render('pages/profile', 
+
+			    {
+			        link: link,
+			        name: name
+			    }
+
+		    );
 
 		}
 
