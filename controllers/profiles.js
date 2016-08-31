@@ -166,7 +166,7 @@ exports.get = function(req, res, username) {
 
 						} else {
 
-							recent = body.response.recent;
+							recent = body.response.recent[0];
 	    				    res.render('pages/profile', {
 						        checkins: checkins,
 						        link: link,
